@@ -11,7 +11,7 @@ int Pop();
 int Peek();
 int Isfull() ;
 int Isempty() ;
-void Print_Board(char board[6][7]);
+void Print_Board(char board[MAX_ROW][MAX_COLUMN]);
 int Row(char board[MAX_ROW][MAX_COLUMN],char User [] ,int player);
 int Column(char board[MAX_ROW][MAX_COLUMN],char User [] ,int player);
 int Trace1(char board[MAX_ROW][MAX_COLUMN],char User [] ,int player);
