@@ -234,7 +234,7 @@ int main()
                 exit(0);
             }
         }
-        else if (col < 7 || col < 0)
+        else if (col > 7 || col < 0)
         {
             printf("Invalid input, bye-bye!\n");
             exit(0);
