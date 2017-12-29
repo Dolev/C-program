@@ -229,15 +229,16 @@ int main()
             add(board, col, User, place);
             if ((col - column) < 0)
             {
-                Print_Board(board);
                 printf("Invalid input, bye-bye!\n");
                 exit(0);
             }
         }
-        else if (col > 7 || col < 0)
+        else
         {
-            printf("Invalid input, bye-bye!\n");
-            exit(0);
+            printf("Invalid input, the number must be between 1 to 7:\n");
+            printf("Player %c, please enter column number : (or - 0 to undo) :\n ", User[place]);
+            scanf("%d", &col);
+            add(board, col, User, place);
         }
         if (Row(board, User, 0) == 1 || Column(board, User, 0) == 1 || Trace1(board, User, 0) == 1 || Trace2(board, User, 0) == 1)
         {
