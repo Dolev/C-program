@@ -14,7 +14,7 @@
 
 static int Stack[STACK_MAX];
 static int top = -1;
-
+//STACK
 int Isempty()
 {
 
@@ -48,10 +48,6 @@ int Pop()
         top = top - 1;
         return data;
     }
-    else
-    {
-        printf("Board is empty - can't undo!\n");
-    }
 }
 
 int Push(int data)
@@ -69,12 +65,12 @@ int Push(int data)
 }
 
 //Print our Board:
-void Print_Board(char board[MAX_COLUMN][MAX_ROW])
+void Print_Board(char board[MAX_ROW][MAX_COLUMN])
 {
 
-    for (int i = 0; i < MAX_COLUMN; i++)
+    for (int i = 0; i < MAX_ROW; i++)
     {
-        for (int j = 0; j < MAX_ROW; j++)
+        for (int j = 0; j < MAX_COLUMN; j++)
         {
             printf("|%c", board[i][j]);
         }
@@ -84,7 +80,7 @@ void Print_Board(char board[MAX_COLUMN][MAX_ROW])
 }
 
 // check if column is full
-int Full_Column(char board[MAX_COLUMN][MAX_ROW], int n)
+int Full_Column(char board[MAX_ROW][MAX_COLUMN], int n)
 {
     int i = 0;
     if (board[i][n] != Space)
@@ -94,7 +90,7 @@ int Full_Column(char board[MAX_COLUMN][MAX_ROW], int n)
 }
 
 //check Row
-int Row(char board[MAX_COLUMN][MAX_ROW], char User[], int player)
+int Row(char board[MAX_ROW][MAX_COLUMN], char User[], int player)
 {
     for (int row = 5; row >= 0; row--)
     {
@@ -108,7 +104,7 @@ int Row(char board[MAX_COLUMN][MAX_ROW], char User[], int player)
     }
 }
 //check Column
-int Column(char board[MAX_COLUMN][MAX_ROW], char User[], int player)
+int Column(char board[MAX_ROW][MAX_COLUMN], char User[], int player)
 {
     for (int column = 6; column >= 0; column--)
     {
@@ -122,7 +118,7 @@ int Column(char board[MAX_COLUMN][MAX_ROW], char User[], int player)
     }
 }
 //trace  [i][j]->[i+1][j+1] ->[i+2][j+2]->[i+3][j+3]
-int Trace1(char board[MAX_COLUMN][MAX_ROW], char User[], int player)
+int Trace1(char board[MAX_ROW][MAX_COLUMN], char User[], int player)
 {
     for (int i = 0; i < 3; i++)
     {
@@ -136,9 +132,9 @@ int Trace1(char board[MAX_COLUMN][MAX_ROW], char User[], int player)
     }
 }
 //trace [i][j]->[i-1][j+1]->[i-2][j+2]->[i-3][j+3]
-int Trace2(char board[MAX_COLUMN][MAX_ROW], char User[], int player)
+int Trace2(char board[MAX_ROW][MAX_COLUMN], char User[], int player)
 {
-    for (int i = 3; i < MAX_COLUMN; i++)
+    for (int i = 3; i < MAX_ROW; i++)
     {
         for (int j = 0; j < 4; j++)
         {
@@ -150,7 +146,7 @@ int Trace2(char board[MAX_COLUMN][MAX_ROW], char User[], int player)
     }
 }
 
-int draw(char board[MAX_COLUMN][MAX_ROW])
+int draw(char board[MAX_ROW][MAX_COLUMN])
 {
     for (int i = 0; i < MAX_COLUMN; i++)
     {
@@ -161,7 +157,7 @@ int draw(char board[MAX_COLUMN][MAX_ROW])
     }
     printf("It's a tie! \n");
 }
-void add(char board[MAX_COLUMN][MAX_ROW], int col, char User[], int place)
+void add(char board[MAX_ROW][MAX_COLUMN], int col, char User[], int place)
 {
     for (int index = 5; index >= 0;)
     {
@@ -175,30 +171,54 @@ void add(char board[MAX_COLUMN][MAX_ROW], int col, char User[], int place)
         else
             index--;
     }
+    Print_Board(board);
 }
 // MAIN
 int main()
 {
     char User[] = {'X', 'O'};
     printf("Welcome !\n");
-    char board[MAX_COLUMN][MAX_ROW];
-    for (int i = 0; i < MAX_COLUMN; i++)
+    char board[MAX_ROW][MAX_COLUMN];
+    for (int i = 0; i < MAX_ROW; i++)
     {
-        for (int j = 0; j < MAX_ROW; j++)
+        for (int j = 0; j < MAX_COLUMN; j++)
         {
             board[i][j] = Space;
         }
     }
     int place = 0;
+    Print_Board(board);
     while (draw(board) == 0)
     {
-        Print_Board(board);
         //player 1 +player 2
         float column; //column
         printf("Player %c, please enter column number : (or - 0 to undo) :\n ", User[place]);
         scanf("%f", &column);
         int col = (int)column;
-        if (col < 8 && col >= 1)
+        if (col == 0) // undo
+        {
+            if (Isempty() == 1)
+            {
+                printf("Board is empty - can't undo!\n");
+                printf("Player %c, please enter column number : (or - 0 to undo) :\n ", User[place]);
+                scanf("%d", &col);
+                add(board, col, User, place);
+            }
+            else
+            {
+                int delete = Pop();
+                for (int i = 0; i < MAX_ROW; i++)
+                {
+                    if (board[i][delete] != Space)
+                    {
+                        board[i][delete] = Space;
+                        break;
+                    }
+                }
+                Print_Board(board);
+            }
+        }
+        else if (col < 8 && col >= 1)
         {
             while (Full_Column(board, col - 1) == 0)
             {
@@ -214,19 +234,6 @@ int main()
                 exit(0);
             }
         }
-        else if (col == 0) //undo
-        {
-            int delete = Pop();
-
-            for (int i = 0; i < MAX_ROW; i++)
-            {
-                if (board[i][delete] != Space && col == 0)
-                {
-                    board[i][delete] = Space;
-                    break;
-                }
-            }
-        }
         else if (col < 7 || col < 0)
         {
             printf("Invalid input, bye-bye!\n");
@@ -234,12 +241,14 @@ int main()
         }
         if (Row(board, User, 0) == 1 || Column(board, User, 0) == 1 || Trace1(board, User, 0) == 1 || Trace2(board, User, 0) == 1)
         {
+            Print_Board(board);
             printf("Player %c wins:\n ", User[0]);
             printf("Game is Over! \n");
             break;
         }
         if (Row(board, User, 1) == 1 || Column(board, User, 1) == 1 || Trace1(board, User, 1) == 1 || Trace2(board, User, 1) == 1)
         {
+            Print_Board(board);
             printf("Player %c wins:\n ", User[1]);
             printf("Game is Over! \n ");
             break;
