@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 //Define :
 #define MAX_ROW 6
@@ -18,3 +17,4 @@ int Trace1(char board[MAX_ROW][MAX_COLUMN],char User [] ,int player);
 int Trace2(char board[MAX_ROW][MAX_COLUMN],char User [] ,int player);
 int Full_Column(char board[MAX_ROW][MAX_COLUMN],int n);
 void add(char board[MAX_ROW][MAX_COLUMN],int col,char[] ,int place);
+void del(char board[MAX_ROW][MAX_COLUMN]);
