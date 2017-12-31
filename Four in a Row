@@ -23,7 +23,6 @@ int Isempty()
     else
         return 0;
 }
-
 int Isfull()
 {
 
@@ -32,16 +31,13 @@ int Isfull()
     else
         return 0;
 }
-
 int Peek()
 {
     return Stack[top];
 }
-
 int Pop()
 {
     int data;
-
     if (!Isempty())
     {
         data = Stack[top];
@@ -49,7 +45,6 @@ int Pop()
         return data;
     }
 }
-
 int Push(int data)
 {
 
@@ -63,7 +58,6 @@ int Push(int data)
         printf(" Stack is full.\n");
     }
 }
-
 //Print our Board:
 void Print_Board(char board[MAX_ROW][MAX_COLUMN])
 {
@@ -78,7 +72,6 @@ void Print_Board(char board[MAX_ROW][MAX_COLUMN])
     }
     printf(" 1 2 3 4 5 6 7 \n");
 }
-
 // check if column is full
 int Full_Column(char board[MAX_ROW][MAX_COLUMN], int n)
 {
@@ -88,8 +81,7 @@ int Full_Column(char board[MAX_ROW][MAX_COLUMN], int n)
         return 0;
     }
 }
-
-//check Row
+//check if four in a row
 int Row(char board[MAX_ROW][MAX_COLUMN], char User[], int player)
 {
     for (int row = 5; row >= 0; row--)
@@ -103,7 +95,7 @@ int Row(char board[MAX_ROW][MAX_COLUMN], char User[], int player)
         }
     }
 }
-//check Column
+//check if four in a column
 int Column(char board[MAX_ROW][MAX_COLUMN], char User[], int player)
 {
     for (int column = 6; column >= 0; column--)
@@ -117,7 +109,7 @@ int Column(char board[MAX_ROW][MAX_COLUMN], char User[], int player)
         }
     }
 }
-//trace  [i][j]->[i+1][j+1] ->[i+2][j+2]->[i+3][j+3]
+//trace  [i][j]->[i+1][j+1] ->[i+2][j+2]->[i+3][j+3] - check if four in a trace
 int Trace1(char board[MAX_ROW][MAX_COLUMN], char User[], int player)
 {
     for (int i = 0; i < 3; i++)
@@ -131,7 +123,7 @@ int Trace1(char board[MAX_ROW][MAX_COLUMN], char User[], int player)
         }
     }
 }
-//trace [i][j]->[i-1][j+1]->[i-2][j+2]->[i-3][j+3]
+//trace [i][j]->[i-1][j+1]->[i-2][j+2]->[i-3][j+3] -check if four in a trace
 int Trace2(char board[MAX_ROW][MAX_COLUMN], char User[], int player)
 {
     for (int i = 3; i < MAX_ROW; i++)
@@ -145,7 +137,7 @@ int Trace2(char board[MAX_ROW][MAX_COLUMN], char User[], int player)
         }
     }
 }
-
+//check if board is full
 int draw(char board[MAX_ROW][MAX_COLUMN])
 {
     for (int i = 0; i < MAX_COLUMN; i++)
@@ -157,6 +149,7 @@ int draw(char board[MAX_ROW][MAX_COLUMN])
     }
     printf("It's a tie! \n");
 }
+//add a disk in a column
 void add(char board[MAX_ROW][MAX_COLUMN], int col, char User[], int place)
 {
     for (int index = 5; index >= 0;)
@@ -173,7 +166,8 @@ void add(char board[MAX_ROW][MAX_COLUMN], int col, char User[], int place)
     }
     Print_Board(board);
 }
-void del(char board[MAX_ROW][MAX_COLUMN], int col)
+//delete the last turn
+void del(char board[MAX_ROW][MAX_COLUMN])
 {
     int delete = Pop();
     for (int i = 0; i < MAX_ROW; i++)
@@ -217,9 +211,9 @@ int main()
         }
         if (col == 0) // undo
         {
-            if (Isempty()!=1)
+            if (Isempty() != 1)
             {
-                del(board, col);
+                del(board);
             }
             else
             {
@@ -264,6 +258,7 @@ int main()
             printf("Game is Over! \n ");
             break;
         }
+        //changing the player
         if (place == 0)
         {
             place = 1;
