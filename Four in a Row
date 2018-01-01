@@ -5,7 +5,6 @@
 *
 *0 means -undo-cancel enemy's turn.
 */
-//if the column is full , if letters
 #include <stdio.h>
 #include <ctype.h>
 #include "header.h"
