@@ -125,7 +125,7 @@ while (1)
         }
     else {
         redirect = 0;
-        //printf("2::%d, %s, %s ,%s\n",argc1,argv1[0],argv1[1],argv1[2]); 
+        
         // Append
         if (argc1 > 1 && ! strcmp(argv1[argc1 - 2], ">>")) {
         append = 1;
