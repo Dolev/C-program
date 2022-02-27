@@ -70,7 +70,12 @@ while (1)
             continue;
     }   
     if(argc1 >=2 && !strcmp(argv1[0],"echo") && !strcmp(argv1[1],"$?")) {
-            printf("%s\n",last_command);                     // exe 5
+            printf("%d\n",status);                     // exe 5    - print status 
+            continue;
+    } 
+    if(argc1 >=2 && !strcmp(argv1[0],"echo") && (argv1[1][0]=='$')) {
+            sprintf(last_command,"echo $%s",argv1[1]);                     // exe 11   - print shell variable 
+             
             continue;
     } 
     if(argc1 >=2 && !strcmp(argv1[0],"cd")) {
@@ -86,7 +91,7 @@ while (1)
     } 
     if(argc1 >=3 && !strcmp(argv1[1],"=") && (argv1[0][0]=='$') ) {                // exe 11 save variables
          memset(last_command,0,sizeof(last_command));
-         sprintf(last_command,"read %s=%s",&argv1[0][1], argv1[2]);
+         sprintf(last_command,"export %s=%s",&argv1[0][1], argv1[2]);
          useLastCommend=1;  
          printf("%s ,arg0 %s ,arg1 %s ,arg2 %s", last_command,argv1[0],argv1[1],argv1[2]) ;        
          continue;
@@ -125,7 +130,7 @@ while (1)
         }
     else {
         redirect = 0;
-        
+        //printf("2::%d, %s, %s ,%s\n",argc1,argv1[0],argv1[1],argv1[2]); 
         // Append
         if (argc1 > 1 && ! strcmp(argv1[argc1 - 2], ">>")) {
         append = 1;
